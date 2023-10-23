@@ -29,7 +29,22 @@
 	{{template "base/head_style" .}}
 	{{template "custom/header" .}}
 </head>
-<body>
+
+{{- $cssprefix := "q--" -}}
+{{- $cssparts := StringUtils.Split .Link "/" -}}
+{{- $cssnames := "" -}}
+{{- range $index, $csspart := $cssparts -}}
+{{- $part := printf "%s%s" $cssprefix $csspart -}}
+{{- if eq $index 1 -}}
+{{- $cssnames = $part -}}
+{{- else -}}
+{{- $cssnames = printf "%s %s" $cssnames $part -}}
+{{- end -}}
+{{- end -}}
+{{- if eq .Link "" -}}
+{{- $cssnames = "q--index" -}}
+{{- end -}}
+<body class="{{$cssnames}}">
 	{{ctx.DataRaceCheck $.Context}}
 	{{template "custom/body_outer_pre" .}}
 
